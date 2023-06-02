@@ -47,7 +47,7 @@ table ip nat {
   chain prerouting {
   type nat hook prerouting priority filter;
   tcp dport 1122 dnat to 192.168.100.100:22; (WEB-L)
-  tcp dport 53 dnat to 192.168.100.200:53;
+  udp dport 53 dnat to 192.168.100.200:53;
   }
 }
 
