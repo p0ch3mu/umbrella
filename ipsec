@@ -1,0 +1,73 @@
+apt install strongswan
+
+_________________________
+nano /etc/ipsec.conf
+_________________________
+RTR-L
+
+conn vpn
+  auto=start
+  type=tunnel
+  authby=secret
+  left=4.4.4.100
+  right=5.5.5.100
+  leftsubnet=0.0.0.0/0
+  rightsubnet=0.0.0.0/0
+  leftprotoport=gre
+  rightprotoport=gre
+  ike=aes128-sha256-modp3072
+  esp=aes128-sha256
+________________________
+RTR-R
+
+conn vpn
+  auto=start
+  type=tunnel
+  authby=secret
+  left=5.5.5.100
+  right=4.4.4.100
+  leftsubnet=0.0.0.0/0
+  rightsubnet=0.0.0.0/0
+  leftprotoport=gre
+  rightprotoport=gre
+  ike=aes128-sha256-modp3072
+  esp=aes128-sha256
+__________________________
+RTR-L, RTR-R
+
+nano /etc/ipsec.secrets
+4.4.4.100 5.5.5.100 : PSK "P@ssw0rd"
+systemctl enable --now ipsec
+ipsec status
+____________________________
+
+conn vpn -- creating a connection with the vpn name
+
+auto=start -- start the connection automatically when the ipsec daemon starts.
+
+type=tunnel -- specifies ipsec to work in tunnel mode. Tunnel
+encrypts the original IP packet completely and adds a new IP header. The transport
+one encrypts everything above the IP level, and leaves the IP header unchanged.
+Roughly speaking, you use tunnel mode to link two
+private networks through a public one, while providing encryption (something like
+a secure GRE). Transport is relevant when IP connectivity has already been achieved.,
+but the traffic between the nodes needs to be encrypted.
+
+authby=secret -- instructs ipsec to authenticate with a key from
+the /etc/ipsec.secrets file
+
+left -- specifies the local address (from where we connect)
+
+right -- specifies the remote address (where we are connecting to)
+
+leftsubnet -- local subnets, traffic from which needs to be encrypted
+
+rightsubnet -- remote subnets to which traffic needs to be encrypted
+
+leftprotoport -- local transport protocol for encryption
+
+rightprotoport -- remote transport protocol for encryption
+
+ike -- IPSEC first phase parameters
+
+esp -- IPSEC second phase parameters
