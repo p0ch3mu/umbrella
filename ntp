@@ -1,0 +1,41 @@
+ISP
+________________________
+apt install chrony
+nano /etc/chrony/chrony.conf
+________________________
+server 127.127.1.0
+allow 5.5.5.0/24
+allow 4.4.4.0/24
+allow 3.3.3.0/24
+local stratum 4
+_________________________
+systemctl restart chronyd
+chronyc sources
+
+CLI
+_________________________
+regedit
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Parameters
+NtpServer 3.3.3.1
+cmd
+net stop w32tm
+net start w32tm
+w32tm /resync /rediscover
+w32tm /query /status
+ISP - chronyc clients
+
+RTR-L, RTR-R, WEB-L, WEB-R
+____________________________
+nano /etc/chrony/chrony.conf
+server 192.168.100.200
+systemctl restart chrony
+ntpdate -d -v 192.168.100.200
+
+
+
+
+
+
+
+
+
