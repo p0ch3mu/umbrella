@@ -14,12 +14,21 @@ ip addr add 10.5.5.2/30 dev tun0
 ip link set up tun0
 #ip route add 192.168.100.0/24 via 10.5.5.1
 
-local -- адрес источника, откуда будет происходить подключение
-remote -- адрес назначения, куда будет происходить подключение
-ip addr add <адрес/маска_подсети> dev <имя_интерфейса> -- команда для
-добавления ip адреса на интерфейс
-ip link set up <имя_интерфейса> -- команда, включающая интерфейс
-ip route add <адрес_сети_региона/маска_подсети> via
-<туннельный_адрес_роутера_напротив> -- команда для добавления маршрута в сеть
-другого региона, таким образом мы сразу же добавим в автонастройку подключение сетей
-двух регионов
+____________________________________________________________________
+local -- source address from where the connection will take place
+
+remote -- destination address where the ip connection will take place
+
+addr add <address/subnet mask> dev <interface name> -- command to
+add an ip address to the interface
+
+ip link set up <interface name> -- command that includes the interface
+ip route add <address of the network region/subnet mask> via
+
+<tunnel_address_router_consist> -- a command to add a route to the network
+of another region, so we will immediately add the connection of networks
+of two regions to the autotune
+_________________________________________________________________________
+
+chmod +x /etc/gre.up
+/etc/gre.up
