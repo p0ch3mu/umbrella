@@ -19,3 +19,62 @@ table ip nat {
   ip saddr 0.0.0.0/0 oifname ens33 masquerade;
   }
 }
+
+____________________________________________
+RTR-L firewall
+_____________________________________________
+table inet filter {
+  chain input {
+    type filter hook input priority 0;
+    udp dport 53 accept; (DNS)
+    tcp dport 80 accept; (HTTP)
+    tcp dport 443 accept; (HTTPS)
+    tcp dport 22 accept; (SSH)
+    ct state {established, related} accept;
+    ip protocol gre accept;
+    ip protocol icmp accept;
+    ip protocol ospf accept;
+    udp dport 500 accept; (IPSEC)
+    ip saddr 192.168.100.0/24 accept;
+    ip saddr 172.16.100.0/24 accept;
+    tcp dport 1122 accept;
+    ip version 4 drop;
+  }
+}
+...
+table ip nat {
+  ...
+  chain prerouting {
+  type nat hook prerouting priority filter;
+  tcp dport 1122 dnat to 192.168.100.100:22; (WEB-L)
+  }
+}
+
+____________________________________________
+RTR-R firewall
+_____________________________________________
+table inet filter {
+  chain input {
+    type filter hook input priority 0;
+    tcp dport 80 accept; (HTTP)
+    tcp dport 443 accept; (HTTPS)
+    tcp dport 22 accept; (SSH)
+    ct state {established, related} accept;
+    ip protocol gre accept;
+    ip protocol icmp accept;
+    ip protocol ospf accept;
+    udp dport 500 accept; (IPSEC)
+    ip saddr 192.168.100.0/24 accept;
+    ip saddr 172.16.100.0/24 accept;
+    tcp dport 2244 accept;
+    ip version 4 drop;
+  }
+}
+...
+table ip nat {
+  ...
+  chain prerouting {
+  type nat hook prerouting priority filter;
+  tcp dport 2244 dnat to 172.16.100.100:22; (WEB-R)
+  }
+}
