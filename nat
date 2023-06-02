@@ -1,0 +1,21 @@
+RTR-L, RTR-R
+________________________________________________________________
+table ip nat {
+  chain postrouting {
+  type nat hook postrouting priority 0;
+  ip saddr 192.168.100.0/24 oifname ens35 counter masquerade;
+  }
+}
+
+5 - ip of local network, interface to external net
+_________________________________________________________________
+nft -f /etc/nftables.conf
+systemctl enable --now nftables
+
+OPTIONAL - ISP internet nat
+table ip nat {
+  chain postrouting {
+  type nat hook postrouting priority 0;
+  ip saddr 0.0.0.0/0 oifname ens33 masquerade;
+  }
+}
