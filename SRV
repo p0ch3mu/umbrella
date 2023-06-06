@@ -1,0 +1,81 @@
+dns - local, 127.0.0.1
+______________________
+Add Roles and Features -> Active Directory Domain Services
+Add a new forest -> int.demo.wsr
+
+______________________
+DNS server
+______________________
+Tools -> DNS Manager -> SRV -> Reverse Lookup Zones -> New Zone...
+Networkd ID - 172.16.100, 192.168.200
+
+SRV -> Forward Lookup Zones -> int.demo.wsr -> New Host A, CNAME
+
+
+______________________
+NTP server
+______________________
+Tools -> Group Policy Management
+int.demo.wsr -> Create a GPO
+Name: Time
+Edit
+Computer Configuration > Policies > Administrative Templates > System > Windows Time
+Service > Time providers > 
+- Configure Windows NTP Client:
+      NtpServer: 8.8.8.8
+      Type: NTP 
+- Enable Win NTP Client
+- Enable Win NTP Server
+gpupdate /force
+ISP -> chronyc sources
+
+________________________
+CERTs
+________________________
+Manage -> Add Roles and Features -> ActiveDirectory Certifiacate Services
+Certification Authority
+Configure AD Cert
+Enterprise CA
+Root CA
+Common name for this CA: RootCA
+
+Tools -> Certification Authority -> Certificate Templates -> Manage
+Web Server -> Duplicate Template
+    General
+      Template display name: SSL
+      Request Handling: Allow private key to be exported
+      Security: Add... -> Everyone -> Allow all
+Certification Authority (Local) -> RootCA -> Certificate Templates -> New
+SSL -> Ok
+
+Win+R -> mmc -> Ctrl+M -> Certificates -> Computer account
+Personal -> Certificates -> All tasks -> Request New Certificate
+More information...
+Subject
+    CN=www.demo.wsr
+    C=RU
+    O=DEMO.WSR
+    
+    DNS: www.demo.wsr
+    IP: 4.4.4.100
+        5.5.5.100
+Export cert to CLI
+____________________________
+Samba
+____________________________
+Add disks
+Disk Management -> Online Disk -> Initialize Disk
+PKM -> New Mirrored Volume
+
+File and Storage Services -> Shares -> New Share
+SMB Quick -> R:
+Share name: Shares
+Customize permissions -> Add -> Select a principial -> Everyone -> Full
+
+
+
+
+
+
+
+
