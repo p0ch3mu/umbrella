@@ -10,7 +10,7 @@ table ip nat {
 5 - ip of local network, interface to external net
 _________________________________________________________________
 nft -f /etc/nftables.conf
-systemctl enable --now nftables
+!!!!!!!!!systemctl enable --now nftables
 
 OPTIONAL - ISP internet nat
 table ip nat {
