@@ -1,0 +1,11 @@
+WEB-L, WEB-R
+____________________
+apt install cifs-utils -y
+mkdir /opt/share
+nano /etc/fstab
+    //192.168.200.200/shares /opt/share cifs defaults,credentials=/etc/pass,_netdev 0 0
+nano /etc/pass
+    username=Administrator
+    password=P@ssw0rd
+mount -a
+df -h
