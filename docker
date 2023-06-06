@@ -1,0 +1,12 @@
+Connect docker.iso (as secondary dvd)
+
+mount /dev/sr1 /media/cdrom
+cd /media/cdrom
+cp appdockerdemo.tar.gz (или как-то так, через команду ls глянь как звать точно) /root
+cd /root
+tar -xvf appdockerdemo.tar.gz
+apt install docker docker.io
+nano Readme.txt to see commands for docker
+such as docker image load < appdocker0.zip
+        docker run -d -p 80:5000 appdocker0
+
