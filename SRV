@@ -59,7 +59,25 @@ Subject
     DNS: www.demo.wsr
     IP: 4.4.4.100
         5.5.5.100
-Export cert to CLI
+mmc -> RootCA -> All Tasks -> Export... -> Shares\Shares\root
+       www.demo.wsr -> All Tasks -> Export... -> yes export keys -> 
+       export all ext prop -> password: 1 -> Shares\Shares\www
+       
+from WEB-L or R to RTR-L,R
+WEB-L: cd /opt/share
+       scp ./* user@4.4.4.100:/home/user/
+RTR-L: mkdir /root/www
+       cp /home/user/www.pfx /root/	
+       openssl pkcs12 -in www.pfx -clcerts -nokeys -out www.crt - get certificate
+       openssl pkcs12 -in www.pfx -nocerts -out www.key  - get a key
+       openssl rsa -in key-encrypted.key -out www.key - out of pass
+       cat /root/www.key > /root/www/www.pem
+       cat /root/www.crt >> /root/www/www.pem
+
+
+RTR-R - www.pfx
+CLI - root.cer
+
 ____________________________
 Samba
 ____________________________
