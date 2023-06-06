@@ -77,7 +77,10 @@ RTR-L: mkdir /root/www
 
 RTR-R - www.pfx
 CLI - root.cer
-
+cmd -> scp user@4.4.4.100:/home/user/root.cer ./
+C:\Users\CLI -> root -> PKM -> Install Certificate
+Local Machine -> Place all certificates in the following -> Trusted Root Cert Auth
+Browser -> https://www.demo.wsr
 ____________________________
 Samba
 ____________________________
