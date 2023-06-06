@@ -32,3 +32,5 @@ _________________________________________________________________________
 
 chmod +x /etc/gre.up
 /etc/gre.up
+nano /etc/crontab
+@reboot root /etc/gre.up
