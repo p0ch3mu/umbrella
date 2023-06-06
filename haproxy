@@ -1,0 +1,32 @@
+RTR-L, RTR-R
+___________________
+apt install haproxy -y
+nano /etc/apt/haproxy.cfg
+
+______
+RTR-L
+______
+frontend www.demo.wsr.
+    bind 4.4.4.100:80
+    bind 4.4.4.100:443 ssl crt /root/www/www.pem
+    http-request redirect scheme https unless { ssl_fc }
+    default_backend web
+backend web
+    balance roundrobin
+    option httpchk
+    server web-r 172.16.100.100:80 check
+    server web-l 192.168.200.100:80 check
+
+______
+RTR-R
+______
+frontend www.demo.wsr.
+    bind 5.5.5.100:80
+    bind 5.5.5.100:443 ssl crt /root/www/www.pem
+    http-request redirect scheme https unless { ssl_fc }
+    default_backend web
+backend web
+    balance roundrobin
+    option httpchk
+    server web-r 172.16.100.100:80 check
+    server web-l 192.168.200.100:80 check
