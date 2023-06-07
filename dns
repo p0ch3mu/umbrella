@@ -46,3 +46,9 @@ named-checkconf
 named-checkconf -z
 systemctl restart bind9
 host www.demo.wsr 3.3.3.1
+
+ rtr-r
+  rtr-l
+  web-r
+  web-l 
+  using DNS on SRV
