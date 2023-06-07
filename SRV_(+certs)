@@ -22,7 +22,7 @@ Edit
 Computer Configuration > Policies > Administrative Templates > System > Windows Time
 Service > Time providers > 
 - Configure Windows NTP Client:
-      NtpServer: 8.8.8.8
+      NtpServer: 4.4.4.1
       Type: NTP 
 - Enable Win NTP Client
 - Enable Win NTP Server
