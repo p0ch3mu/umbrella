@@ -20,8 +20,8 @@ NtpServer 3.3.3.1
 cmd
 net stop w32time
 net start w32time
-w32time /resync /rediscover
-w32time /query /status
+w32tm /resync /rediscover
+w32tm /query /status
 ISP - chronyc clients
 
 RTR-L, RTR-R, WEB-L, WEB-R
