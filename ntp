@@ -18,10 +18,10 @@ regedit
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Parameters
 NtpServer 3.3.3.1
 cmd
-net stop w32tm
-net start w32tm
-w32tm /resync /rediscover
-w32tm /query /status
+net stop w32time
+net start w32time
+w32time /resync /rediscover
+w32time /query /status
 ISP - chronyc clients
 
 RTR-L, RTR-R, WEB-L, WEB-R
