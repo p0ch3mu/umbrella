@@ -44,3 +44,8 @@ systemctl restart bind9
 host demo.wsr 3.3.3.1
 host isp.demo.wsr 3.3.3.1
 host www.demo.wsr 3.3.3.1
+
+=========================
+CLI
+=========================
+change dns to 3.3.3.1
