@@ -1,0 +1,46 @@
+==================
+ISP
+==================
+nano /etc/bind/named.conf.options
+
+forwarders {
+  8.8.8.8;
+};
+dnssec-validation no;
+dnssec-enable no;
+allow-query {any;};
+recursion yes;
+listen-on {any;};
+
+nano /etc/bind/named.conf.default-zones
+
+zone "demo.wsr" {
+  type master;
+  file "/etc/bind/demo.wsr";
+  forwarders {};
+};
+
+cd /etc/bind; cp db.local demo.wsr;
+
+nano /etc/bind/demo.wsr
+
+$ORIGIN  demo.wsr.
+@ IN  SOA demo.wsr. root.demo.wsr.  (
+...
+@         IN  NS    demo.wsr.
+@         IN  A     3.3.3.1
+isp       IN  A     3.3.3.1
+www       IN  A     4.4.4.100
+www       IN  A     5.5.5.100
+internet  IN  CNAME isp
+$ORIGIN int.demo.wsr.
+@ IN  NS  int.demo.wsr.
+@ IN  A 4.4.4.100
+
+named-checkconf
+named-checkconf -z
+systemctl restart bind9
+
+host demo.wsr 3.3.3.1
+host isp.demo.wsr 3.3.3.1
+host www.demo.wsr 3.3.3.1
