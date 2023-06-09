@@ -1,0 +1,50 @@
+============
+RTR-L
+============
+apt install strongswan
+nano /etc/ipsec.conf
+
+conn vpn
+  auto=start
+  type=tunnel
+  authby=secret
+  left=4.4.4.100
+  right=5.5.5.100
+  leftsubnet=0.0.0.0/0
+  rightsubnet=0.0.0.0/0
+  leftprotoport=gre
+  rightprotoport=gre
+  ike=aes128-sha256-modp3072
+  esp=aes128-sha256
+  
+nano /etc/ipsec.secrets
+  
+4.4.4.100 5.5.5.100 : PSK "P@ssw0rd"
+  
+systemctl enable --now ipsec
+ipsec status
+============
+RTR-R
+============
+apt install strongswan
+nano /etc/ipsec.conf
+
+conn vpn
+  auto=start
+  type=tunnel
+  authby=secret
+  left=5.5.5.100
+  right=4.4.4.100
+  leftsubnet=0.0.0.0/0
+  rightsubnet=0.0.0.0/0
+  leftprotoport=gre
+  rightprotoport=gre
+  ike=aes128-sha256-modp3072
+  esp=aes128-sha256
+  
+nano /etc/ipsec.secrets
+  
+4.4.4.100 5.5.5.100 : PSK "P@ssw0rd"
+  
+systemctl enable --now ipsec
+ipsec status
