@@ -9,7 +9,7 @@ table inet filter {
 table ip nat {
   chain prerouting {
   type nat hook prerouting priority filter; policy accept;
-  tcp dport 2222 dnat to 192.168.100.100:22;
+  iifname "ens224" tcp dport 2222 dnat to 192.168.100.100:22;
   }
 }
 
@@ -26,7 +26,7 @@ table inet filter {
 table ip nat {
   chain prerouting {
   type nat hook prerouting priority filter; policy accept;
-  tcp dport 2222 dnat to 192.168.100.100:22;
+  iifname "ens224" tcp dport 2222 dnat to 192.168.100.100:22;
   }
 }
 
