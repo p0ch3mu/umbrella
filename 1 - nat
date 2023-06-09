@@ -1,0 +1,13 @@
+==============
+RTR-L, RTR-R
+==============
+table ip nat {
+  chain postrouting {
+  type nat hook postrouting priority 0;
+  ip saddr 192.168.100.0/24 oifname ens35 counter masquerade;
+  }
+}
+nft -f /etc/nftables.conf
+systemctl enable --now nftables
+WEB-L# traceroute -n 5.5.5.1
+ISP# ping 172.16.100.100 (unsucces)
