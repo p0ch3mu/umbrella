@@ -1,0 +1,41 @@
+====================
+RTR-L
+====================
+table inet filter {
+  chain input {
+    type filter hook input priority 0;
+    udp dport 53 accept; (DNS)
+    tcp dport 80 accept; (HTTP)
+    tcp dport 443 accept; (HTTPS)
+    ct state {established, related} accept;
+    ip protocol gre accept;
+    ip protocol icmp accept;
+    ip protocol ospf accept;
+    udp dport 500 accept; (IPSEC)
+    ip saddr 192.168.100.0/24
+    ip saddr 172.16.100.0/24 accept;
+    ip version 4 drop;
+  }
+}
+
+nft -f /etc/nftables
+====================
+RTR-R
+====================
+table inet filter {
+  chain input {
+  type filter hook input priority 0;
+  tcp dport 80 accept;
+  tcp dport 443 accept;
+  ct state {established, related} accept;
+  ip protocol gre accept;
+  ip protocol icmp accept;
+  ip protocol ospf accept;
+  udp dport 500 accept;
+  ip saddr 192.168.100.0/24 accept;
+  ip saddr 172.16.100.0/24 accept;
+  ip version 4 drop;
+  }
+}
+
+nft -f /etc/nftables
