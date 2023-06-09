@@ -49,3 +49,12 @@ host www.demo.wsr 3.3.3.1
 CLI
 =========================
 change dns to 3.3.3.1
+
+========================
+RTR-L
+========================
+table ip nat {
+  chain prerouting {
+  iifname "ens224" udp dport 53 dnat to 192.168.100.200:53;
+  }
+}
