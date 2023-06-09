@@ -1,0 +1,28 @@
+===============
+RTR-L
+===============
+nano /etc/gre.up
+
+#!/bin/bash
+ip tunnel add tun0 mode gre local 4.4.4.100 remote 5.5.5.100
+ip addr add 10.5.5.1/30 dev tun0
+ip link set up tun0
+ip route add 172. 16.100.0/24 via 10.5.5.2
+
+chmod +x /etc/gre.up
+ip a
+WEB-L# traceroute -n 172.16.100.100
+===============
+RTR-R
+===============
+nano /etc/gre.up
+
+#!/bin/bash
+ip tunnel add tun0 mode gre local 5.5.5.100 remote 4.4.4.100
+ip addr add 10.5.5.2/30 dev tun0
+ip link set up tun0
+ip route add 192.168.100.0/24 via 10.5.5.1
+
+chmod +x /etc/gre.up
+ip a
+WEB-L# traceroute -n 172.16.100.100
